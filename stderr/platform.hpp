@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file
+ * @ingroup sentinel_platform_backend_stderr
+ *
+ * @brief `stderr` logging backend for native and hosted targets.
+ */
+
 #include <cstdio>
 #include <utility>
 
@@ -8,6 +15,18 @@
 
 namespace sentinel::platform
 {
+  /**
+   *
+   * @brief Emits an error-level log message to `stderr`.
+   *
+   * @tparam Args Format argument types.
+   *
+   * @param tag Platform log tag printed after the severity label.
+   * @param format `std::fprintf`-compatible format string.
+   * @param args Format arguments forwarded to `std::fprintf`.
+   *
+   * @note Returns no value.
+   */
   template <class... Args>
     inline void log_error(const char* tag, const char* format, Args&&... args)
     {
@@ -16,6 +35,18 @@ namespace sentinel::platform
       std::fprintf(stderr, "\n");
     }
 
+  /**
+   *
+   * @brief Emits a warning-level log message to `stderr`.
+   *
+   * @tparam Args Format argument types.
+   *
+   * @param tag Platform log tag printed after the severity label.
+   * @param format `std::fprintf`-compatible format string.
+   * @param args Format arguments forwarded to `std::fprintf`.
+   *
+   * @note Returns no value.
+   */
   template <class... Args>
     inline void log_warning(const char* tag, const char* format, Args&&... args)
     {
@@ -24,6 +55,18 @@ namespace sentinel::platform
       std::fprintf(stderr, "\n");
     }
 
+  /**
+   *
+   * @brief Emits an info-level log message to `stderr`.
+   *
+   * @tparam Args Format argument types.
+   *
+   * @param tag Platform log tag printed after the severity label.
+   * @param format `std::fprintf`-compatible format string.
+   * @param args Format arguments forwarded to `std::fprintf`.
+   *
+   * @note Returns no value.
+   */
   template <class... Args>
     inline void log_info(const char* tag, const char* format, Args&&... args)
     {
@@ -32,18 +75,54 @@ namespace sentinel::platform
       std::fprintf(stderr, "\n");
     }
 
+  /**
+   *
+   * @brief Emits an ISR-safe error-level log message to `stderr`.
+   *
+   * @tparam Args Format argument types.
+   *
+   * @param tag Platform log tag printed after the severity label.
+   * @param format `std::fprintf`-compatible format string.
+   * @param args Format arguments forwarded to `std::fprintf`.
+   *
+   * @note Returns no value.
+   */
   template <class... Args>
     inline void log_error_isr(const char* tag, const char* format, Args&&... args)
     {
       log_error(tag, format, std::forward<Args>(args)...);
     }
 
+  /**
+   *
+   * @brief Emits an ISR-safe warning-level log message to `stderr`.
+   *
+   * @tparam Args Format argument types.
+   *
+   * @param tag Platform log tag printed after the severity label.
+   * @param format `std::fprintf`-compatible format string.
+   * @param args Format arguments forwarded to `std::fprintf`.
+   *
+   * @note Returns no value.
+   */
   template <class... Args>
     inline void log_warning_isr(const char* tag, const char* format, Args&&... args)
     {
       log_warning(tag, format, std::forward<Args>(args)...);
     }
 
+  /**
+   *
+   * @brief Emits an ISR-safe info-level log message to `stderr`.
+   *
+   * @tparam Args Format argument types.
+   *
+   * @param tag Platform log tag printed after the severity label.
+   * @param format `std::fprintf`-compatible format string.
+   * @param args Format arguments forwarded to `std::fprintf`.
+   *
+   * @note Returns no value.
+   */
   template <class... Args>
     inline void log_info_isr(const char* tag, const char* format, Args&&... args)
     {
