@@ -4,25 +4,41 @@ project(sentinel-platform LANGUAGES CXX)
 
 option(SENTINEL_PLATFORM_BUILD_DOCS "Build the Doxygen documentation" OFF)
 
-if(NOT DEFINED SENTINEL_PLATFORM)
-  message(FATAL_ERROR "SENTINEL_PLATFORM is not set")
+# Sentinel platform target
+set(SENTINEL_PLATFORM "none" CACHE STRING "sentinel platform backend")
+
+# Set root directory
+set(SENTINEL_PLATFORM_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+
+# Select platform
+set_property(CACHE SENTINEL_PLATFORM PROPERTY STRINGS none esp stderr)
+
+if(SENTINEL_PLATFORM STREQUAL "none")
+  set(SENTINEL_PLATFORM_DIR "${SENTINEL_PLATFORM_ROOT_DIR}/none")
+  set(SENTINEL_PLATFORM_TARGET platform_none)
+elseif(SENTINEL_PLATFORM STREQUAL "esp")
+  set(SENTINEL_PLATFORM_DIR "${SENTINEL_PLATFORM_ROOT_DIR}/esp")
+  set(SENTINEL_PLATFORM_TARGET platform_esp)
+elseif(SENTINEL_PLATFORM STREQUAL "stderr")
+  set(SENTINEL_PLATFORM_DIR "${SENTINEL_PLATFORM_ROOT_DIR}/stderr")
+  set(SENTINEL_PLATFORM_TARGET platform_stderr)
+else()
+  message(FATAL_ERROR "Unsupported sentinel platform backend: ${SENTINEL_PLATFORM}")
 endif()
 
-set(platform_dir "${CMAKE_CURRENT_SOURCE_DIR}/${SENTINEL_PLATFORM}")
-set(platform_target "platform_${SENTINEL_PLATFORM}")
-
-if(NOT EXISTS "${platform_dir}/platform.hpp")
-  message(FATAL_ERROR "Unsupported sentinel platform: ${SENTINEL_PLATFORM}")
+if(NOT EXISTS "${SENTINEL_PLATFORM_DIR}/platform.hpp")
+  message(FATAL_ERROR "Unsupported sentinel platform backend: ${SENTINEL_PLATFORM}")
 endif()
 
-add_library(${platform_target} INTERFACE)
-add_library(sentinel::${platform_target} ALIAS ${platform_target})
+add_library(${SENTINEL_PLATFORM_TARGET} INTERFACE)
+add_library(sentinel::${SENTINEL_PLATFORM_TARGET} ALIAS ${SENTINEL_PLATFORM_TARGET})
 
-target_include_directories(${platform_target}
+target_include_directories(${SENTINEL_PLATFORM_TARGET}
   INTERFACE
-    "${platform_dir}"
+    "${SENTINEL_PLATFORM_DIR}"
 )
 
+# Doxygen documentation
 if(SENTINEL_PLATFORM_BUILD_DOCS)
   find_package(Doxygen REQUIRED)
 

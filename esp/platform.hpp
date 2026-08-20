@@ -31,7 +31,10 @@ namespace sentinel::platform
   template <class... Args>
     inline void log_error(const char* tag, const char* format, Args&&... args)
     {
-      ESP_LOGE(tag, format, std::forward<Args>(args)...);
+      if constexpr (ESP_LOG_ENABLED(ESP_LOG_ERROR))
+      {
+        esp_log(ESP_LOG_CONFIG_INIT(ESP_LOG_ERROR | ESP_LOG_CONFIGS_DEFAULT), tag, ESP_LOG_ATTR_STR(format) ESP_LOG_ARGS(std::forward<Args>(args)...));
+      }
     }
 
   /**
@@ -49,7 +52,10 @@ namespace sentinel::platform
   template <class... Args>
     inline void log_warning(const char* tag, const char* format, Args&&... args)
     {
-      ESP_LOGW(tag, format, std::forward<Args>(args)...);
+      if constexpr (ESP_LOG_ENABLED(ESP_LOG_WARN))
+      {
+        esp_log(ESP_LOG_CONFIG_INIT(ESP_LOG_WARN | ESP_LOG_CONFIGS_DEFAULT), tag, ESP_LOG_ATTR_STR(format) ESP_LOG_ARGS(std::forward<Args>(args)...));
+      }
     }
 
   /**
@@ -67,7 +73,10 @@ namespace sentinel::platform
   template <class... Args>
     inline void log_info(const char* tag, const char* format, Args&&... args)
     {
-      ESP_LOGI(tag, format, std::forward<Args>(args)...);
+      if constexpr (ESP_LOG_ENABLED(ESP_LOG_INFO))
+      {
+        esp_log(ESP_LOG_CONFIG_INIT(ESP_LOG_INFO | ESP_LOG_CONFIGS_DEFAULT), tag, ESP_LOG_ATTR_STR(format) ESP_LOG_ARGS(std::forward<Args>(args)...));
+      }
     }
 
   /**
@@ -85,7 +94,10 @@ namespace sentinel::platform
   template <class... Args>
     inline void log_error_isr(const char* tag, const char* format, Args&&... args)
     {
-      ESP_EARLY_LOGE(tag, format, std::forward<Args>(args)...);
+      if constexpr (ESP_LOG_ENABLED(ESP_LOG_ERROR))
+      {
+        esp_log(ESP_LOG_CONFIG_INIT(ESP_LOG_ERROR | ESP_LOG_CONFIGS_DEFAULT | ESP_LOG_CONFIG_CONSTRAINED_ENV), tag, ESP_LOG_ATTR_STR(format) ESP_LOG_ARGS(std::forward<Args>(args)...));
+      }
     }
 
   /**
@@ -103,7 +115,10 @@ namespace sentinel::platform
   template <class... Args>
     inline void log_warning_isr(const char* tag, const char* format, Args&&... args)
     {
-      ESP_EARLY_LOGW(tag, format, std::forward<Args>(args)...);
+      if constexpr (ESP_LOG_ENABLED(ESP_LOG_WARN))
+      {
+        esp_log(ESP_LOG_CONFIG_INIT(ESP_LOG_WARN | ESP_LOG_CONFIGS_DEFAULT | ESP_LOG_CONFIG_CONSTRAINED_ENV), tag, ESP_LOG_ATTR_STR(format) ESP_LOG_ARGS(std::forward<Args>(args)...));
+      }
     }
 
   /**
@@ -121,6 +136,9 @@ namespace sentinel::platform
   template <class... Args>
     inline void log_info_isr(const char* tag, const char* format, Args&&... args)
     {
-      ESP_EARLY_LOGI(tag, format, std::forward<Args>(args)...);
+      if constexpr (ESP_LOG_ENABLED(ESP_LOG_INFO))
+      {
+        esp_log(ESP_LOG_CONFIG_INIT(ESP_LOG_INFO | ESP_LOG_CONFIGS_DEFAULT | ESP_LOG_CONFIG_CONSTRAINED_ENV), tag, ESP_LOG_ATTR_STR(format) ESP_LOG_ARGS(std::forward<Args>(args)...));
+      }
     }
 }
