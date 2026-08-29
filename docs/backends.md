@@ -9,7 +9,7 @@ Bundled backends are intentionally small. They provide only the functions requir
 | ------- | ------ | ------ | -------- |
 | `none` | `sentinel::platform_none` | `none/platform.hpp` | Accepts every log call and emits nothing. |
 | `stderr` | `sentinel::platform_stderr` | `stderr/platform.hpp` | Prints severity, tag, formatted text, and newline to `stderr`. |
-| `esp` | `sentinel::platform_esp` | `esp/platform.hpp` | Forwards normal logs to `ESP_LOG*` and ISR logs to `ESP_EARLY_LOG*`. |
+| `esp` | `sentinel::platform_esp` | `esp/platform.hpp` | Forwards normal and ISR logs to `esp_log` with the matching ESP-IDF severity. |
 
 ## none
 

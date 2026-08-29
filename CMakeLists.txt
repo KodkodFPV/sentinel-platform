@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(sentinel-platform LANGUAGES CXX)
+project(sentinel-platform VERSION 1.0.0 LANGUAGES CXX)
 
 option(SENTINEL_PLATFORM_BUILD_DOCS "Build the Doxygen documentation" OFF)
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.hpp.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/sentinel/platform/version.hpp"
+  @ONLY
+)
 
 # Sentinel platform target
 set(SENTINEL_PLATFORM "none" CACHE STRING "sentinel platform backend")
@@ -35,6 +41,7 @@ add_library(sentinel::${SENTINEL_PLATFORM_TARGET} ALIAS ${SENTINEL_PLATFORM_TARG
 
 target_include_directories(${SENTINEL_PLATFORM_TARGET}
   INTERFACE
+    "${SENTINEL_PLATFORM_ROOT_DIR}/include"
     "${SENTINEL_PLATFORM_DIR}"
 )
 
