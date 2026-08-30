@@ -7,8 +7,8 @@
  * @brief `stderr` logging backend for native and hosted targets.
  */
 
-#include <cstdio>
 #include <utility>
+#include <cstdio>
 
 #include "sentinel/detail/log_core.hpp"
 
