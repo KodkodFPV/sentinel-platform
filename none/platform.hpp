@@ -7,7 +7,7 @@
  * @brief No-op logging backend for targets without a log sink.
  */
 
-#include "sentinel/detail/log_core.hpp"
+#include <sentinel/detail/log_core.hpp>
 
 
 namespace sentinel::platform

@@ -10,7 +10,7 @@
 #include <utility>
 #include <cstdio>
 
-#include "sentinel/detail/log_core.hpp"
+#include <sentinel/detail/log_core.hpp>
 
 
 namespace sentinel::platform

@@ -11,7 +11,7 @@
 
 #include "esp_err.h"
 
-#include "sentinel/error_traits.hpp"
+#include <sentinel/error_traits.hpp>
 
 
 namespace sentinel::platform::esp
